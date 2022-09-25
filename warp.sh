@@ -1351,7 +1351,7 @@ showIP(){
 menu(){
     clear
     echo "#############################################################"
-    echo -e "#                    ${RED} WARP  一键安装脚本${PLAIN}                    #"
+    echo -e "#                     ${RED}WARP  安装管理脚本${PLAIN}                    #"
     echo -e "# ${GREEN}作者${PLAIN}: MisakaNo の 小破站                                  #"
     echo -e "# ${GREEN}博客${PLAIN}: https://blog.misaka.rest                            #"
     echo -e "# ${GREEN}GitLab${PLAIN}: https://gitlab.com/misakablog                     #"
