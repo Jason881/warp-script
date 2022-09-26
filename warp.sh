@@ -121,7 +121,7 @@ checkStack(){
     lan4=$(ip route get 1.1.1.1 2>/dev/null | grep -oP 'src \K\S+')
     lan6=$(ip route get 2606:4700:4700::1111 2>/dev/null | grep -oP 'src \K\S+')
     if [[ "$lan4" =~ ^[0-9.]+$ ]]; then
-        ping -c2 -W3 162.159.193.10 >/dev/null 2>&1 && out4=1
+        ping -c2 -W3 1.1.1.1 >/dev/null 2>&1 && out4=1
     fi
     if [[ "$lan6" =~ ^[0-9a-z:]+$ ]]; then
         ping6 -c2 -w10 2606:4700:4700::1111 >/dev/null 2>&1 && out6=1
