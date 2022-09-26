@@ -77,6 +77,11 @@ archAffix(){
     esac
 }
 
+if [[ ! -f /usr/local/bin/nf ]]; then
+    wget https://cdn.jsdelivr.net/gh/taffychan/warp/netflix/verify/nf_linux_$(archAffix) -O /usr/local/bin/nf
+    chmod +x /usr/local/bin/nf
+fi
+
 check_quota(){
     if [[ "$CHECK_TYPE" = 1 ]]; then
         QUOTA=$(warp-cli --accept-tos account 2>/dev/null | grep -oP 'Quota: \K\d+')
@@ -873,13 +878,7 @@ warpsw1(){
             wg-quick down wgcf >/dev/null 2>&1
             cd /etc/wireguard
             rm -f wgcf-account.toml wgcf-profile.conf
-            until [[ -a wgcf-account.toml ]]; do
-                wgcf register --accept-tos
-                sleep 5
-            done
-            chmod +x wgcf-account.toml
-            wgcf generate
-            chmod +x wgcf-profile.conf
+            wgcfreg
             warpPublicKey=$(grep PublicKey /etc/wireguard/wgcf-profile.conf | sed "s/PublicKey = //g")
             warpPrivateKey=$(grep PrivateKey /etc/wireguard/wgcf-profile.conf | sed "s/PrivateKey = //g")
             warpIPv4Address=$(cat /etc/wireguard/wgcf-profile.conf | sed -n 3p | sed "s/Address = //g")
@@ -904,14 +903,8 @@ warpsw1(){
         if [[ -n $(type -P wireproxy) ]]; then
             systemctl stop wireproxy-warp
             cd /etc/wireguard
-            rm -f wgcf-account.toml
-            until [[ -a wgcf-account.toml ]]; do
-                wgcf register --accept-tos
-                sleep 5
-            done
-            chmod +x wgcf-account.toml
-            wgcf generate
-            chmod +x wgcf-profile.conf
+            rm -f wgcf-account.toml wgcf-profile.conf
+            wgcfreg
             warpIPv4Address=$(cat /etc/wireguard/wgcf-profile.conf | sed -n 3p | sed "s/Address = //g")
             warpPublicKey=$(grep PublicKey /etc/wireguard/wgcf-profile.conf | sed "s/PublicKey = //g")
             warpPrivateKey=$(grep PrivateKey /etc/wireguard/wgcf-profile.conf | sed "s/PrivateKey = //g")
@@ -1049,7 +1042,7 @@ warpsw1(){
         fi
     fi
     if [[ $accountInput == 3 ]]; then
-        read -rp "请复制粘贴WARP Teams账户配置文件链接: " teamconfigurl
+        read -rp "请复制粘贴WARP Teams账户配置文件链接 [如未输入则使用脚本默认的]：" teamconfigurl
         if [[ -z $teamconfigurl ]]; then
             yellow "未输入Teams账户配置文件链接，正在使用脚本公用Teams账户..."
             teamconfigurl="https://raw.githubusercontent.com/taffychan/warp/main/files/publicteam.xml"
@@ -1192,21 +1185,6 @@ warpsw(){
     esac
 }
 
-warpnf(){
-    yellow "请选择需要刷NetFilx IP的WARP客户端:"
-    green "1. Wgcf-WARP IPv4模式"
-    green "2. Wgcf-WARP IPv6模式"
-    green "3. WARP-Cli 代理模式"
-    green "4. WireProxy-WARP 代理模式"
-    read -rp "请选择客户端 [1-4]: " clientInput
-    case "$clientInput" in
-        1 ) wget -N --no-check-certificate https://raw.githubusercontent.com/taffychan/warp/main/netflix/netflix4.sh && bash netflix4.sh ;;
-        2 ) wget -N --no-check-certificate https://raw.githubusercontent.com/taffychan/warp/main/netflix/netflix6.sh && bash netflix6.sh ;;
-        3 ) wget -N --no-check-certificate https://raw.githubusercontent.com/taffychan/warp/main/netflix/netflixcli.sh && bash netflixcli.sh ;;
-        4 ) wget -N --no-check-certificate https://raw.githubusercontent.com/taffychan/warp/main/netflix/netflixwire.sh && bash netflixwire.sh ;;
-    esac
-}
-
 showIP(){
     if [[ $(warp-cli --accept-tos settings 2>/dev/null | grep "Mode" | awk -F ": " '{print $2}') == "Warp" ]]; then
         INTERFACE='--interface CloudflareWARP'
@@ -1221,11 +1199,16 @@ showIP(){
     w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k $INTERFACE | grep warp | cut -d= -f2) || w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
     w6=$(curl -s6m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
     if [[ -n $INTERFACE ]]; then
-        n4=$(curl $INTERFACE --user-agent "${Browser_UA}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1) || n4=$(curl -4 --user-agent "${Browser_UA}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1)
+        n4=$(nf -address 172.16.0.2 | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+        [[ $n4 == "您的网络可能没有正常配置IPv4，或者没有IPv4网络接入" ]] && n4=$(nf | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     else
-        n4=$(curl -4 --user-agent "${Browser_UA}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1)
+        n4=$(nf | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
-    n6=$(curl -6 --user-agent "${Browser_UA}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1)
+    n6=$(nf | sed -n 7p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+
+    if [[ -n $(echo $n6 | grep "NF所识别的IP地域信息") ]]; then
+        n6=$(nf | sed -n 6p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+    fi
     
     s5p=$(warp-cli --accept-tos settings 2>/dev/null | grep 'WarpProxy on port' | awk -F "port " '{print $2}')
     w5p=$(grep BindAddress /etc/wireguard/proxy.conf 2>/dev/null | sed "s/BindAddress = 127.0.0.1://g")
@@ -1233,14 +1216,14 @@ showIP(){
         s5s=$(curl -sx socks5h://localhost:$s5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
         s5i=$(curl -sx socks5h://localhost:$s5p ip.p3terx.com -k --connect-timeout 8 | sed -n 1p)
         s5c=$(curl -sx socks5h://localhost:$s5p ip.p3terx.com --connect-timeout 8 | sed -n 2p)
-        s5n=$(curl -sx socks5h://localhost:$s5p -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1)
+        s5n=$(nf -proxy socks5://127.0.0.1:$s5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
     if [[ -n $w5p ]]; then
         w5d="${RED}未设置${PLAIN}"
         w5s=$(curl -sx socks5h://localhost:$w5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
         w5i=$(curl -sx socks5h://localhost:$w5p ip.p3terx.com -k --connect-timeout 8 | sed -n 1p)
         w5c=$(curl -sx socks5h://localhost:$w5p ip.p3terx.com --connect-timeout 8 | sed -n 2p)
-        w5n=$(curl -sx socks5h://localhost:$w5p -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://www.netflix.com/title/81215567" 2>&1)
+        w5n=$(nf -proxy socks5://127.0.0.1:$w5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
 
     if [[ $w4 == "plus" ]]; then
@@ -1306,20 +1289,20 @@ showIP(){
     
     [[ -z $s5s ]] || [[ $s5s == "off" ]] && s5="${RED}未启动${PLAIN}"
     
-    [[ -z $n4 ]] || [[ $n4 == "000" ]] && n4="${RED}无法检测Netflix状态${PLAIN}"
-    [[ -z $n6 ]] || [[ $n6 == "000" ]] && n6="${RED}无法检测Netflix状态${PLAIN}"
-    [[ $n4 == "200" ]] && n4="${GREEN}已解锁 Netflix${PLAIN}"
-    [[ $n6 == "200" ]] && n6="${GREEN}已解锁 Netflix${PLAIN}"
-    [[ $s5n == "200" ]] && s5n="${GREEN}已解锁 Netflix${PLAIN}"
-    [[ $w5n == "200" ]] && w5n="${GREEN}已解锁 Netflix${PLAIN}"
-    [[ $n4 == "403" ]] && n4="${RED}无法解锁 Netflix${PLAIN}"
-    [[ $n6 == "403" ]] && n6="${RED}无法解锁 Netflix${PLAIN}"
-    [[ $s5n == "403" ]]&& s5n="${RED}无法解锁 Netflix${PLAIN}"
-    [[ $w5n == "403" ]]&& w5n="${RED}无法解锁 Netflix${PLAIN}"
-    [[ $n4 == "404" ]] && n4="${YELLOW}Netflix 自制剧${PLAIN}"
-    [[ $n6 == "404" ]] && n6="${YELLOW}Netflix 自制剧${PLAIN}"
-    [[ $s5n == "404" ]] && s5n="${YELLOW}Netflix 自制剧${PLAIN}"
-    [[ $w5n == "404" ]] && w5n="${YELLOW}Netflix 自制剧${PLAIN}"
+    [[ -z $n4 ]] || [[ $n4 == "您的网络可能没有正常配置IPv4，或者没有IPv4网络接入" ]] && n4="${RED}无法检测Netflix状态${PLAIN}"
+    [[ -z $n6 ]] || [[ $n6 == "您的网络可能没有正常配置IPv6，或者没有IPv6网络接入" ]] && n6="${RED}无法检测Netflix状态${PLAIN}"
+    [[ $n4 == "您的出口IP完整解锁Netflix，支持非自制剧的观看" ]] && n4="${GREEN}已解锁 Netflix${PLAIN}"
+    [[ $n6 == "您的出口IP完整解锁Netflix，支持非自制剧的观看" ]] && n6="${GREEN}已解锁 Netflix${PLAIN}"
+    [[ $s5n == "您的出口IP完整解锁Netflix，支持非自制剧的观看" ]] && s5n="${GREEN}已解锁 Netflix${PLAIN}"
+    [[ $w5n == "您的出口IP完整解锁Netflix，支持非自制剧的观看" ]] && w5n="${GREEN}已解锁 Netflix${PLAIN}"
+    [[ $n4 =~ "Netflix在您的出口IP所在的国家不提供服务"|"Netflix在您的出口IP所在的国家提供服务，但是您的IP疑似代理，无法正常使用服务" ]] && n4="${RED}无法解锁 Netflix${PLAIN}"
+    [[ $n6 =~ "Netflix在您的出口IP所在的国家不提供服务"|"Netflix在您的出口IP所在的国家提供服务，但是您的IP疑似代理，无法正常使用服务" ]] && n6="${RED}无法解锁 Netflix${PLAIN}"
+    [[ $s5n =~ "Netflix在您的出口IP所在的国家不提供服务"|"Netflix在您的出口IP所在的国家提供服务，但是您的IP疑似代理，无法正常使用服务" ]]&& s5n="${RED}无法解锁 Netflix${PLAIN}"
+    [[ $w5n =~ "Netflix在您的出口IP所在的国家不提供服务"|"Netflix在您的出口IP所在的国家提供服务，但是您的IP疑似代理，无法正常使用服务" ]]&& w5n="${RED}无法解锁 Netflix${PLAIN}"
+    [[ $n4 == "您的出口IP可以使用Netflix，但仅可看Netflix自制剧" ]] && n4="${YELLOW}Netflix 自制剧${PLAIN}"
+    [[ $n6 == "您的出口IP可以使用Netflix，但仅可看Netflix自制剧" ]] && n6="${YELLOW}Netflix 自制剧${PLAIN}"
+    [[ $s5n == "您的出口IP可以使用Netflix，但仅可看Netflix自制剧" ]] && s5n="${YELLOW}Netflix 自制剧${PLAIN}"
+    [[ $w5n == "您的出口IP可以使用Netflix，但仅可看Netflix自制剧" ]] && w5n="${YELLOW}Netflix 自制剧${PLAIN}"
     
     if [[ -n $v4 ]]; then
         echo "----------------------------------------------------------------------------"
@@ -1351,7 +1334,7 @@ showIP(){
 menu(){
     clear
     echo "#############################################################"
-    echo -e "#                     ${RED}WARP  安装管理脚本${PLAIN}                    #"
+    echo -e "#                    ${RED} WARP  一键安装脚本${PLAIN}                    #"
     echo -e "# ${GREEN}作者${PLAIN}: MisakaNo の 小破站                                  #"
     echo -e "# ${GREEN}博客${PLAIN}: https://blog.misaka.rest                            #"
     echo -e "# ${GREEN}GitLab${PLAIN}: https://gitlab.com/misakablog                     #"
@@ -1388,7 +1371,7 @@ menu(){
         14) uninstallWireProxy ;;
         15) warpup ;;
         16) warpsw ;;
-        17) warpnf ;;
+        17) wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/raw/main/netflix.sh && bash netflix.sh ;;
         *) red "请输入正确的选项 [0-17]！" && exit 1 ;;
     esac
 }
