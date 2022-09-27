@@ -113,8 +113,8 @@ checktun(){
 }
 
 checkv4v6(){
-    v6=$(curl -s6m8 ip.p3terx.com -k | sed -n 1p)
-    v4=$(curl -s4m8 ip.p3terx.com -k | sed -n 1p)
+    v6=$(curl -s6m8 api64.ipify.org -k)
+    v4=$(curl -s4m8 api64.ipify.org -k)
 }
 
 checkStack(){
@@ -550,7 +550,7 @@ installcli(){
         ip -4 rule add from 172.16.0.2 lookup 51820
         ip -4 route add default dev CloudflareWARP table 51820
         ip -4 rule add table main suppress_prefixlength 0
-        IPv4=$(curl -s4m8 ip.p3terx.com/json --interface CloudflareWARP)
+        IPv4=$(curl -s4m8 api64.ipify.org --interface CloudflareWARP)
         retry_time=0
         until [[ -n $IPv4 ]]; do
             retry_time=$((${retry_time} + 1))
@@ -1190,10 +1190,10 @@ showIP(){
         INTERFACE='--interface CloudflareWARP'
     fi
     Browser_UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
-    v4=$(curl -s4m8 ip.p3terx.com -k $INTERFACE | sed -n 1p) || v4=$(curl -s4m8 ip.p3terx.com -k | sed -n 1p)
-    v6=$(curl -s6m8 ip.p3terx.com -k | sed -n 1p)
-    c4=$(curl -s4m8 ip.p3terx.com $INTERFACE | sed -n 2p) || c4=$(curl -s4m8 ip.p3terx.com | sed -n 2p)
-    c6=$(curl -s6m8 ip.p3terx.com | sed -n 2p)
+    v4=$(curl -s4m8 api64.ipify.org -k $INTERFACE) || v4=$(curl -s4m8 api64.ipify.org -k)
+    v6=$(curl -s6m8 api64.ipify.org -k)
+    c4=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$v4?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
+    c6=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$v6?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
     d4="${RED}未设置${PLAIN}"
     d6="${RED}未设置${PLAIN}"
     w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k $INTERFACE | grep warp | cut -d= -f2) || w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
@@ -1214,15 +1214,15 @@ showIP(){
     w5p=$(grep BindAddress /etc/wireguard/proxy.conf 2>/dev/null | sed "s/BindAddress = 127.0.0.1://g")
     if [[ -n $s5p ]]; then
         s5s=$(curl -sx socks5h://localhost:$s5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
-        s5i=$(curl -sx socks5h://localhost:$s5p ip.p3terx.com -k --connect-timeout 8 | sed -n 1p)
-        s5c=$(curl -sx socks5h://localhost:$s5p ip.p3terx.com --connect-timeout 8 | sed -n 2p)
+        s5i=$(curl -sx socks5h://localhost:$s5p api64.ipify.org -k --connect-timeout 8)
+        s5c=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$s5i?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
         s5n=$(nf -proxy socks5://127.0.0.1:$s5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
     if [[ -n $w5p ]]; then
         w5d="${RED}未设置${PLAIN}"
         w5s=$(curl -sx socks5h://localhost:$w5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
-        w5i=$(curl -sx socks5h://localhost:$w5p ip.p3terx.com -k --connect-timeout 8 | sed -n 1p)
-        w5c=$(curl -sx socks5h://localhost:$w5p ip.p3terx.com --connect-timeout 8 | sed -n 2p)
+        w5i=$(curl -sx socks5h://localhost:$w5p api64.ipify.org -k --connect-timeout 8)
+        w5c=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$w5i?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
         w5n=$(nf -proxy socks5://127.0.0.1:$w5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
 
