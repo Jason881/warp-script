@@ -871,7 +871,7 @@ warpsw1(){
     yellow "请选择切换的账户类型"
     green "1. WARP 免费账户"
     green "2. WARP+"
-    green "3. WARP Teams"
+    green "3. WARP Teams (Zero Trust)"
     read -rp "请选择账户类型 [1-3]: " accountInput
     if [[ $accountInput == 1 ]]; then
         if [[ -n $(type -P wgcf) && -n $(type -P wg-quick) ]]; then
