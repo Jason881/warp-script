@@ -1192,8 +1192,8 @@ showIP(){
     Browser_UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
     v4=$(curl -s4m8 api64.ipify.org -k $INTERFACE) || v4=$(curl -s4m8 api64.ipify.org -k)
     v6=$(curl -s6m8 api64.ipify.org -k)
-    c4=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$v4?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
-    c6=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$v6?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
+    c4=$(curl -sm8 ipget.net/country?ip=$v4)
+    c6=$(curl -sm8 ipget.net/country?ip=$v6)
     d4="${RED}未设置${PLAIN}"
     d6="${RED}未设置${PLAIN}"
     w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k $INTERFACE | grep warp | cut -d= -f2) || w4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
@@ -1215,14 +1215,14 @@ showIP(){
     if [[ -n $s5p ]]; then
         s5s=$(curl -sx socks5h://localhost:$s5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
         s5i=$(curl -sx socks5h://localhost:$s5p api64.ipify.org -k --connect-timeout 8)
-        s5c=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$s5i?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
+        s5c=$(curl -sm8 ipget.net/country?ip=$s5i)
         s5n=$(nf -proxy socks5://127.0.0.1:$s5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
     if [[ -n $w5p ]]; then
         w5d="${RED}未设置${PLAIN}"
         w5s=$(curl -sx socks5h://localhost:$w5p https://www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 8 | grep warp | cut -d= -f2)
         w5i=$(curl -sx socks5h://localhost:$w5p api64.ipify.org -k --connect-timeout 8)
-        w5c=$(curl -sm8 --user-agent "${Browser_UA}" http://ip-api.com/json/$w5i?lang=en-US -k | cut -f2 -d"," | cut -f4 -d '"')
+        w5c=$(curl -sm8 ipget.net/country?ip=$w5i)
         w5n=$(nf -proxy socks5://127.0.0.1:$w5p | sed -n 3p | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     fi
 
