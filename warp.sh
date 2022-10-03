@@ -1732,6 +1732,8 @@ menu(){
         6) wpgov44 ;;
         7) wpgov66 ;;
         8) wpgov46 ;;
+        9) switchwpgo ;;
+        10) uninstallwpgo ;;
         11) warpcli=1 && installcli ;;
         12) warpcli=2 && installcli ;;
         13) warpcli_changeport ;;
