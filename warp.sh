@@ -1530,7 +1530,7 @@ wpgoprofile(){
         red "WARP-Go的WireGuard配置文件生成失败！"
         exit 1
     fi
-    sed -i "s/engage.cloudflareclient.com/$endip/g" /etc/wireguard/wgcf.conf
+    sed -i "s/engage.cloudflareclient.com/$endip/g" /root/warpgo-proxy.conf
     green "WARP-Go的WireGuard配置文件已提取成功！"
     yellow "文件已保存至：/root/warp-goproxy.conf"
     yellow "节点配置二维码如下所示："
