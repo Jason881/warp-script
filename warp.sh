@@ -1725,6 +1725,7 @@ menu(){
     echo -e ""
     read -rp "请输入选项 [0-23]：" menuChoice
     case $menuChoice in
+        0) exit 1 ;;
         1) wgcfv44 ;;
         2) wgcfv66 ;;
         3) wgcfv46 ;;
