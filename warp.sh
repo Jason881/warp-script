@@ -1538,7 +1538,7 @@ wpgoprofile(){
 }
 
 wgprofile(){
-    yellow "请选择将要生成的配置文件的网络环境："
+    yellow "请选择将要生成的配置文件的WARP客户端："
     green "1. Wgcf-WARP （默认）"
     green "2. WARP-Go"
     read -rp "请输入选项 [1-2]：" clientInput
