@@ -1668,7 +1668,7 @@ wpgoprofile(){
     fi
     sed -i "s/engage.cloudflareclient.com/$endip/g" /root/warpgo-proxy.conf
     green "WARP-Go的WireGuard配置文件已提取成功！"
-    yellow "文件已保存至：/root/warp-goproxy.conf"
+    yellow "文件已保存至：/root/warpgo-proxy.conf"
     yellow "节点配置二维码如下所示："
     qrencode -t ansiutf8 < /root/warpgo-proxy.conf
 }
