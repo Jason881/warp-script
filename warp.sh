@@ -176,6 +176,11 @@ wgcfv44(){
         checkStack
     fi
 
+    if [[ -a "/opt/warp-go/warp-go" ]]; then
+        red "检测到您已经安装了WARP-Go全局模式，请先卸载WARP-Go后再安装Wgcf-WARP！"
+        exit 1
+    fi
+
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
         if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
             yellow "检测为纯IPv4的VPS，正在切换为Wgcf-WARP全局单栈模式 (WARP IPv4)"
@@ -232,6 +237,11 @@ wgcfv66(){
         checkStack
     fi
 
+    if [[ -a "/opt/warp-go/warp-go" ]]; then
+        red "检测到您已经安装了WARP-Go全局模式，请先卸载WARP-Go后再安装Wgcf-WARP！"
+        exit 1
+    fi
+
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
         if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
             yellow "检测为纯IPv4的VPS，正在切换为Wgcf-WARP全局单栈模式 (原生IPv4 + WARP IPv6)"
@@ -286,6 +296,11 @@ wgcfv46(){
         checkStack
     else
         checkStack
+    fi
+
+    if [[ -a "/opt/warp-go/warp-go" ]]; then
+        red "检测到您已经安装了WARP-Go全局模式，请先卸载WARP-Go后再安装Wgcf-WARP！"
+        exit 1
     fi
 
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
@@ -516,6 +531,11 @@ wpgov44(){
         checkStack
     fi
 
+    if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
+        red "检测到您已经安装了Wgcf-WARP全局模式，请先卸载Wgcf-WARP后再安装WARP-Go！"
+        exit 1
+    fi
+
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
         if [[ -a "/opt/warp-go/warp-go" ]]; then
             yellow "检测为纯IPv4的VPS，正在切换为WARP-Go全局单栈模式 (WARP IPv4)"
@@ -572,6 +592,11 @@ wpgov66(){
         checkStack
     fi
 
+    if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
+        red "检测到您已经安装了Wgcf-WARP全局模式，请先卸载Wgcf-WARP后再安装WARP-Go！"
+        exit 1
+    fi
+
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
         if [[ -a "/opt/warp-go/warp-go" ]]; then
             yellow "检测为纯IPv4的VPS，正在切换为WARP-Go全局单栈模式 (原生IPv4 + WARP IPv6)"
@@ -626,6 +651,11 @@ wpgov46(){
         checkStack
     else
         checkStack
+    fi
+
+    if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
+        red "检测到您已经安装了Wgcf-WARP全局模式，请先卸载Wgcf-WARP后再安装WARP-Go！"
+        exit 1
     fi
 
     if [[ -n $lan4 && -n $out4 && -z $lan6 && -z $out6 ]]; then
