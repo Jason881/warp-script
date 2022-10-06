@@ -893,7 +893,7 @@ installcli(){
                 green "建议如下："
                 yellow "1. 建议使用系统官方源升级系统及内核加速！如已使用第三方源及内核加速 ,请务必更新到最新版 ,或重置为系统官方源！"
                 yellow "2. 部分VPS系统过于精简 ,相关依赖需自行安装后再重试"
-                yellow "3. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+                yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                 exit 1
             fi
         done
@@ -924,7 +924,7 @@ installcli(){
             green "建议如下："
             yellow "1. 建议使用系统官方源升级系统及内核加速！如已使用第三方源及内核加速 ,请务必更新到最新版 ,或重置为系统官方源！"
             yellow "2. 部分VPS系统过于精简 ,相关依赖需自行安装后再重试"
-            yellow "3. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+            yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
             exit 1
         else
             green "WARP-Cli 代理模式已启动成功!"
@@ -1085,7 +1085,7 @@ TEXT
             yellow "1. 建议使用系统官方源升级系统及内核加速！如已使用第三方源及内核加速 ,请务必更新到最新版 ,或重置为系统官方源！"
             yellow "2. 部分VPS系统过于精简 ,相关依赖需自行安装后再重试"
             yellow "3. 检查 https://www.cloudflarestatus.com/ 查询VPS就近区域。如处于黄色的【Re-routed】状态则不可使用WireProxy-WARP 代理模式"
-            yellow "4. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+            yellow "4. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
             exit 1
         fi
         sleep 8
@@ -1129,7 +1129,7 @@ wireproxy_changeport(){
             yellow "1. 建议使用系统官方源升级系统及内核加速！如已使用第三方源及内核加速 ,请务必更新到最新版 ,或重置为系统官方源！"
             yellow "2. 部分VPS系统过于精简 ,相关依赖需自行安装后再重试"
             yellow "3. 检查 https://www.cloudflarestatus.com/ 查询VPS就近区域。如处于黄色的【Re-routed】状态则不可使用WireProxy-WARP 代理模式"
-            yellow "4. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+            yellow "4. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
             exit 1
         fi
         sleep 8
@@ -1310,7 +1310,7 @@ warpsw1(){
                     red "切换 Wgcf-WARP 账户类型失败，已自动切换为WARP 免费账户！"
                     green "建议如下："
                     yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                     exit 1
                 fi
             fi
@@ -1348,7 +1348,7 @@ warpsw1(){
                     red "切换 WireProxy-WARP 代理模式账户类型失败，已自动切换为WARP 免费账户！"
                     green "建议如下："
                     yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                     exit 1
                 fi
             fi
@@ -1411,7 +1411,7 @@ warpsw1(){
                         green "建议如下："
                         yellow "1. 检查提取出来的配置文件是否为从安卓5.1模拟器，1.1.1.1 APP 6.9版本的"
                         yellow "2. 你有可能修改了团队名、删除了设备"
-                        yellow "3. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+                        yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                         exit 1
                     fi
                 done
@@ -1448,7 +1448,7 @@ warpsw1(){
                         green "建议如下："
                         yellow "1. 检查提取出来的配置文件是否为从安卓5.1模拟器，1.1.1.1 APP 6.9版本的"
                         yellow "2. 你有可能修改了团队名、删除了设备"
-                        yellow "3. 脚本可能跟不上时代, 建议截图发布到GitHub Issues、GitLab Issues、论坛或TG群询问"
+                        yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                         exit 1
                     fi
                 done
@@ -1485,6 +1485,9 @@ warpsw2(){
         showIP
     else
         red "WARP+账户启用失败, 已自动降级至WARP免费版账户"
+        green "建议如下："
+        yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
+        yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
     fi
 }
 
@@ -1572,6 +1575,9 @@ warpsw3(){
             echo $currpost | sh
             systemctl start warp-go && sleep 3
             red "WARP+账户升级失败！"
+            green "建议如下："
+            yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
+            yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
         fi
     fi
     if [[ $accountInput == 3 ]]; then
@@ -1589,7 +1595,20 @@ warpsw3(){
             if [[ $gbwpv4 == "plus" ]] || [[ $gbwpv6 == "plus" ]]; then
                 green "WARP Teams账户升级成功！"
             else
+                red "WARP Teams账户注册失败！正在还原为WARP 免费账户"
+                until [[ -e /opt/warp-go/warp.conf ]]; do
+                    yellow "正在向CloudFlare WARP注册账号, 如出现Success即为注册成功"
+                    /opt/warp-go/warp-go --register --config=/opt/warp-go/warp.conf
+                done
+                sed -i "s#.*AllowedIPs.*#$currallowips#g" /opt/warp-go/warp.conf
+                echo $currendpoint | sh
+                echo $currpost | sh
+                systemctl start warp-go && sleep 3
                 red "WARP Teams账户升级失败！"
+                green "建议如下："
+                yellow "1. 检查提取出来的TOKEN是否过期或不可用"
+                yellow "2. 你有可能修改了团队名、删除了设备"
+                yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
             fi
         else
             red "未输入Teams账户配置文件链接，正在使用脚本公用Teams账户..."
@@ -1617,7 +1636,20 @@ EOF
             if [[ $gbwpv4 == "plus" ]] || [[ $gbwpv6 == "plus" ]]; then
                 green "WARP Teams账户升级成功！"
             else
+                red "WARP Teams账户注册失败！正在还原为WARP 免费账户"
+                until [[ -e /opt/warp-go/warp.conf ]]; do
+                    yellow "正在向CloudFlare WARP注册账号, 如出现Success即为注册成功"
+                    /opt/warp-go/warp-go --register --config=/opt/warp-go/warp.conf
+                done
+                sed -i "s#.*AllowedIPs.*#$currallowips#g" /opt/warp-go/warp.conf
+                echo $currendpoint | sh
+                echo $currpost | sh
+                systemctl start warp-go && sleep 3
                 red "WARP Teams账户升级失败！"
+                green "建议如下："
+                yellow "1. 检查提取出来的TOKEN是否过期或不可用"
+                yellow "2. 你有可能修改了团队名、删除了设备"
+                yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
             fi
         fi
     fi
