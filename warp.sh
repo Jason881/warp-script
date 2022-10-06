@@ -1573,6 +1573,7 @@ warpsw3(){
         systemctl stop warp-go
         if [[ -n $teamstoken ]]; then
             yellow "正在向CloudFlare WARP注册账号, 如出现Success即为注册成功"
+            rm -f /opt/warp-go/warp.conf
             result=$(/opt/warp-go/warp-go --register --config=/opt/warp-go/warp.conf --team-config "$teamstoken")
             sed -i "s#.*AllowedIPs.*#$currallowips#g" /opt/warp-go/warp.conf
             echo $currendpoint | sh
