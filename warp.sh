@@ -1795,8 +1795,12 @@ showIP(){
     fi
 
     if [[ $w4 == "plus" ]]; then
-        if [[ -n $(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }') ]] || [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
+        if [[ -n $(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }') ]]; then
             d4=$(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }')
+            check_quota
+            t4="${GREEN} $QUOTA ${PLAIN}"
+            w4="${GREEN}WARP+${PLAIN}"
+        elif [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
             check_quota
             t4="${GREEN} $QUOTA ${PLAIN}"
             w4="${GREEN}WARP+${PLAIN}"
@@ -1812,8 +1816,12 @@ showIP(){
         w4="${RED}未启用WARP${PLAIN}"
     fi
     if [[ $w6 == "plus" ]]; then
-        if [[ -n $(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }') ]] || [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
+        if [[ -n $(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }') ]]; then
             d6=$(grep -s 'Device name' /etc/wireguard/info.log | awk '{ print $NF }')
+            check_quota
+            t6="${GREEN} $QUOTA ${PLAIN}"
+            w6="${GREEN}WARP+${PLAIN}"
+        elif [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
             check_quota
             t6="${GREEN} $QUOTA ${PLAIN}"
             w6="${GREEN}WARP+${PLAIN}"
