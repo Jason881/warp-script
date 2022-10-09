@@ -157,7 +157,7 @@ wgcfreg(){
     fi
 
     until [[ -a wgcf-account.toml ]]; do
-        yellow "正在向CloudFlare WARP注册账号, 如提示429 Too Many Requests错误请耐心等待重试注册即可"
+        yellow "正在向CloudFlare WARP注册账号, 如提示429 Too Many Requests错误请耐心等待脚本重试注册即可"
         wgcf register --accept-tos
         sleep 5
     done
