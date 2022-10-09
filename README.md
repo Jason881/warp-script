@@ -4,6 +4,8 @@
 wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/raw/main/warp.sh && bash warp.sh
 ```
 
+管理命令 `bash warp.sh`
+
 ## 赞助我们
 
 爱发电：https://afdian.net/a/misaka-blog
