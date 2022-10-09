@@ -1340,7 +1340,8 @@ warpsw1(){
                     red "切换 Wgcf-WARP 账户类型失败，已自动切换为WARP 免费账户！"
                     green "建议如下："
                     yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
+                    yellow "2. 检查当前WARP许可证密钥是否绑定超过5台设备"
+                    yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                     exit 1
                 fi
             fi
@@ -1378,7 +1379,8 @@ warpsw1(){
                     red "切换 WireProxy-WARP 代理模式账户类型失败，已自动切换为WARP 免费账户！"
                     green "建议如下："
                     yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-                    yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
+                    yellow "2. 检查当前WARP许可证密钥是否绑定超过5台设备"
+                    yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
                     exit 1
                 fi
             fi
@@ -1517,7 +1519,8 @@ warpsw2(){
         red "WARP+账户启用失败, 已自动降级至WARP免费版账户"
         green "建议如下："
         yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-        yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
+        yellow "2. 检查当前WARP许可证密钥是否绑定超过5台设备"
+        yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
     fi
 }
 
@@ -1607,7 +1610,8 @@ warpsw3(){
             red "WARP+账户升级失败！"
             green "建议如下："
             yellow "1. 检查1.1.1.1 APP中的WARP+账户是否有足够的流量，如没有流量可以使用本脚本内的刷流量功能来获取免费的WARP+流量"
-            yellow "2. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
+            yellow "2. 检查当前WARP许可证密钥是否绑定超过5台设备"
+            yellow "3. 脚本可能跟不上时代, 建议截图发布到GitLab Issues或TG群询问"
         fi
     fi
     if [[ $accountInput == 3 ]]; then
@@ -1800,7 +1804,7 @@ showIP(){
             check_quota
             t4="${GREEN} $QUOTA ${PLAIN}"
             w4="${GREEN}WARP+${PLAIN}"
-        elif [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
+        elif [[ $(grep -s "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
             check_quota
             t4="${GREEN} $QUOTA ${PLAIN}"
             w4="${GREEN}WARP+${PLAIN}"
@@ -1821,7 +1825,7 @@ showIP(){
             check_quota
             t6="${GREEN} $QUOTA ${PLAIN}"
             w6="${GREEN}WARP+${PLAIN}"
-        elif [[ $(grep "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
+        elif [[ $(grep -s "Type" /opt/warp-go/warp.conf | cut -d= -f2 | sed "s# ##g") == "plus" ]]; then
             check_quota
             t6="${GREEN} $QUOTA ${PLAIN}"
             w6="${GREEN}WARP+${PLAIN}"
