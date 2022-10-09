@@ -39,7 +39,7 @@ for ((int = 0; int < ${#REGEX[@]}; int++)); do
     [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]] && SYSTEM="${RELEASE[int]}" && [[ -n $SYSTEM ]] && break
 done
 
-[[ -z $SYSTEM ]] && red "目前你的VPS的操作系统暂未支持！" && exit 1
+[[ -z $SYSTEM ]] && red "目前脚本暂未支持您的VPS的操作系统！" && exit 1
 
 main=$(uname -r | awk -F . '{print $1}')
 minor=$(uname -r | awk -F . '{print $2}')
