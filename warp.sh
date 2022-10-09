@@ -116,7 +116,7 @@ checktun(){
     if [[ ! $TUN =~ "in bad state"|"处于错误状态"|"ist in schlechter Verfassung" ]]; then
         if [[ $VIRT == lxc ]]; then
             if [[ $main -lt 5 ]] || [[ $minor -lt 6 ]]; then
-                red "检测到未开启TUN模块, 请到VPS后台控制面板处开启"
+                red "检测到目前VPS未开启TUN模块, 请到后台控制面板处开启"
                 exit 1
             else
                 return 0
@@ -124,7 +124,7 @@ checktun(){
         elif [[ $VIRT == "openvz" ]]; then
             wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/raw/main/tun.sh && bash tun.sh
         else
-            red "检测到未开启TUN模块, 请到VPS后台控制面板处开启"
+            red "检测到目前VPS未开启TUN模块, 请到后台控制面板处开启"
             exit 1
         fi
     fi
