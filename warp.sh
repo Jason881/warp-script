@@ -147,7 +147,7 @@ checkStack(){
 }
 
 initwgcf(){
-    wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/blob/main/files/wgcf/wgcf-latest-linux-$(archAffix) -O /usr/local/bin/wgcf
+    wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/raw/main/files/wgcf/wgcf-latest-linux-$(archAffix) -O /usr/local/bin/wgcf
     chmod +x /usr/local/bin/wgcf
 }
 
