@@ -706,6 +706,8 @@ wpgov46(){
 }
 
 installwpgo(){
+    checktun
+
     if [[ $SYSTEM == "CentOS" ]]; then
         ${PACKAGE_INSTALL[int]} sudo curl wget bc htop iputils screen python3 qrencode
     else
