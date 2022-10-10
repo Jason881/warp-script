@@ -147,7 +147,7 @@ checkStack(){
 }
 
 initwgcf(){
-    wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/taffychan/warp/files/wgcf/wgcf-latest-linux-$(archAffix) -O /usr/local/bin/wgcf
+    wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/blob/main/files/wgcf/wgcf-latest-linux-$(archAffix) -O /usr/local/bin/wgcf
     chmod +x /usr/local/bin/wgcf
 }
 
@@ -725,7 +725,7 @@ installwpgo(){
     fi
 
     mkdir -p /opt/warp-go/
-    wget -O /opt/warp-go/warp-go https://cdn.jsdelivr.net/gh/taffychan/warp/files/warp-go/warp-go-$arch -O /opt/warp-go/warp-go
+    wget -O /opt/warp-go/warp-go https://gitlab.com/misakablog/warp-script/-/raw/main/files/warp-go/warp-go-$arch -O /opt/warp-go/warp-go
     chmod +x /opt/warp-go/warp-go
 
     wpgoreg
@@ -1026,7 +1026,7 @@ installWireProxy(){
         ${PACKAGE_INSTALL[int]} sudo curl wget bc htop inetutils-ping screen python3 qrencode
     fi
     
-    wget -N https://cdn.jsdelivr.net/gh/taffychan/warp/files/wireproxy/wireproxy-$(archAffix) -O /usr/local/bin/wireproxy
+    wget -N https://gitlab.com/misakablog/warp-script/-/raw/main/files/wireproxy/wireproxy-$(archAffix) -O /usr/local/bin/wireproxy
     chmod +x /usr/local/bin/wireproxy
     
     initwgcf
