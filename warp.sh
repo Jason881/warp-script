@@ -362,7 +362,7 @@ installwgcf(){
         ${PACKAGE_INSTALL[int]} epel-release
         ${PACKAGE_INSTALL[int]} sudo curl wget iproute net-tools wireguard-tools iptables bc htop screen python3 iputils qrencode
         if [[ $OSID == 9 ]] && [[ -z $(type -P resolvconf) ]]; then
-            wget -N https://cdn.jsdelivr.net/gh/taffychan/warp/files/resolvconf -O /usr/sbin/resolvconf
+            wget -N https://gitlab.com/misakablog/warp-script/-/raw/main/files/resolvconf -O /usr/sbin/resolvconf
             chmod +x /usr/sbin/resolvconf
         fi
     fi
@@ -383,7 +383,7 @@ installwgcf(){
     fi
     
     if [[ $main -lt 5 ]] || [[ $minor -lt 6 ]] || [[ $VIRT =~ lxc|openvz ]]; then
-        wget -N --no-check-certificate https://cdn.jsdelivr.net/gh/taffychan/warp/files/wireguard-go/wireguard-go-$(archAffix) -O /usr/bin/wireguard-go
+        wget -N --no-check-certificate https://gitlab.com/misakablog/warp-script/-/raw/main/files/wireguard-go/wireguard-go-$(archAffix) -O /usr/bin/wireguard-go
         chmod +x /usr/bin/wireguard-go
     fi
 
