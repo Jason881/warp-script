@@ -90,7 +90,7 @@ archAffix(){
 }
 
 if [[ ! -f /usr/local/bin/nf ]]; then
-    wget https://cdn.jsdelivr.net/gh/taffychan/warp/netflix/verify/nf_linux_$(archAffix) -O /usr/local/bin/nf
+    wget https://gitlab.com/misakablog/warp-script/-/raw/main/files/nfverify/nf_linux_$(archAffix) -O /usr/local/bin/nf
     chmod +x /usr/local/bin/nf
 fi
 
