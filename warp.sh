@@ -1393,7 +1393,7 @@ warpsw1(){
         read -rp "请复制粘贴WARP Teams账户配置文件链接 [如未输入则使用脚本默认的]：" teamconfigurl
         if [[ -z $teamconfigurl ]]; then
             yellow "未输入Teams账户配置文件链接，正在使用脚本公用Teams账户..."
-            teamconfigurl="https://raw.githubusercontent.com/taffychan/warp/main/files/publicteam.xml"
+            teamconfigurl="https://gitlab.com/misakablog/warp-script/-/raw/main/files/publicteam.xml"
         fi
         teamsconfig=$(curl -sSL "$teamconfigurl" | sed "s/\"/\&quot;/g")
         wpteampublickey=$(expr "$teamsconfig" : '.*public_key&quot;:&quot;\([^&]*\).*')
