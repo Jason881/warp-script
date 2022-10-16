@@ -2,8 +2,8 @@ name: Fetch Netflix verify latest version to GitLab
 
 on:
   workflow_dispatch:
-  #schedule:
-    #- cron: "30 12 * * *"
+  schedule:
+    - cron: "30 12 * * *"
 
 jobs:
   build:
